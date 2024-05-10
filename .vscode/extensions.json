@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"biomejs.biome",
+		"swssr.region-wrapper",
+		"wayou.vscode-todo-highlight",
+		"streetsidesoftware.code-spell-checker",
+		"eenaree.webstorm-new-dark",
+		"ms-vscode.vscode-typescript-next"
+	]
+}
