@@ -1,0 +1,10 @@
+dictionaryDefinitions:
+ - name: sauronDictionary
+   path: ./cSpell.txt
+   addWords: true
+dictionaries:
+ - sauronDictionary
+ignorePaths:
+ - 'cspell.config.yml'
+ - 'node_modules'
+ - 'cSpell.txt'
