@@ -1,10 +1,28 @@
-import { getCurrentBrowserFingerPrint } from '@rajesh896/broprint.js';
-import { getBuckets, setBuckets, getMetaData } from './utils';
+// import { load } from './fp';
+import { getCurrentBrowserFingerPrint } from './fingerprint';
+import { getBuckets } from './utils/getBuckets';
+import { getMetaData } from './utils/getMetadata';
+import { setBuckets } from './utils/setBuckets';
 
 const src = (document.currentScript as HTMLScriptElement)?.src;
 const url = new URL(src);
 const projectId = url.searchParams.get('pi');
 const origin = url.origin;
+
+// const fingerprint = ''; // await fp.load();
+// console.log({ fingerprint });
+// load().then((fp: { get: () => Promise<{ visitorId: string }> }) =>
+// 	fp.get().then((fp) => {
+// 		console.log(fp.visitorId);
+// 	}),
+// );
+
+// const fingerprint = await getCurrentBrowserFingerPrint();
+
+let fingerprint = '';
+getCurrentBrowserFingerPrint().then((fp) => {
+	fingerprint = fp;
+});
 
 if (!projectId) {
 	throw new Error('Sauron Project ID not provided!');
@@ -17,15 +35,15 @@ const interval = setInterval(() => {
 
 	setBuckets(bucketsNoSent);
 
-	const promises = bucketsNoSent.map(
-		(bucket) => () =>
-			fetch(`${origin}/`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(bucket),
-			}).then((response) => {
+	const promises = bucketsNoSent.map((bucket) =>
+		fetch(`${origin}/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(bucket),
+		})
+			.then((response) => {
 				if (response.status === 200) {
 					bucket.sent = true;
 					return;
@@ -34,30 +52,41 @@ const interval = setInterval(() => {
 					clearInterval(interval);
 					throw new Error('Unauthorized');
 				}
+			})
+			.catch((error) => {
+				clearInterval(interval);
+				throw new Error(error);
 			}),
 	);
 
-	Promise.allSettled(promises).then(() => {
+	Promise.allSettled(promises).then((response) => {
+		console.log({ buckets, promises, response });
 		setBuckets(buckets);
 	});
 }, 30000);
 
 document.addEventListener('click', (event) => {
-	if (!(event.target instanceof HTMLElement)) {
+	const target = event.target as HTMLElement;
+
+	if (!target || target.getAttribute('data-sauron-id') === null) {
 		return;
 	}
-
-	const target = event.target as HTMLElement;
 
 	const metaData = getMetaData(target);
 
 	const buckets = getBuckets();
 	const bucketsClone = buckets.slice();
 
-	const bucketIndex = buckets.findIndex(
-		(bucket) => bucket.identifier === metaData.id,
+	let bucketIndex = buckets.findIndex(
+		(bucket) => bucket.identifier === metaData['data-sauron-id'],
 	);
-	bucketsClone[bucketIndex] = {
+	bucketIndex = bucketIndex === -1 ? buckets.length : bucketIndex;
+
+	const identifier = `${fingerprint}-${Math.random()
+		.toString(36)
+		.substring(7)}-${Date.now()}`;
+
+	bucketsClone.push({
 		coordinates: {
 			x: event.clientX,
 			y: event.clientY,
@@ -70,8 +99,11 @@ document.addEventListener('click', (event) => {
 		eventType: 'click',
 		updatedAt: new Date(),
 		meta: metaData,
-		identifier: metaData.id!,
-	};
+		fingerprint,
+		application: projectId as unknown as undefined,
+		identifier,
+		sent: false,
+	});
 
 	localStorage.setItem('buckets', JSON.stringify(bucketsClone));
 });

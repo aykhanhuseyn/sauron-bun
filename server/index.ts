@@ -1,7 +1,7 @@
 import { file, serve } from 'bun';
-import { connect, seed } from 'database';
-import { Application } from 'models';
 import useragent from 'useragent';
+import { connect, seed } from './database';
+import { Application } from './models';
 
 await connect();
 await seed();
@@ -29,7 +29,7 @@ serve({
 
 		console.log('-----------------', {
 			// ip,
-			// referrer,
+			referrer,
 			// cookies,
 			// projectId,
 			os,
@@ -43,6 +43,9 @@ serve({
 
 		switch (url.pathname) {
 			case '/': {
+				if (Math.random() > 0.6) {
+					return new Response('Unauthorized', { status: 401 });
+				}
 				return new Response(
 					JSON.stringify({
 						projectId,
@@ -60,7 +63,10 @@ serve({
 					case 'GET': {
 						const app = await Application.findById(projectId);
 
-						if (app && app.url === referrer) {
+						if (
+							app &&
+							[app.url, 'https://localhost:8000/demo'].includes(referrer as string)
+						) {
 							return new Response(file('../web/dist/index.js'), { status: 200 });
 						}
 						return new Response('Application not found!', { status: 404 });
@@ -82,8 +88,12 @@ serve({
 						return new Response('Method not handled!', { status: 500 });
 				}
 			}
-			default:
+			default: {
+				if (url.pathname.startsWith('/assets')) {
+					return new Response(file(`../demo${url.pathname}`), { status: 200 });
+				}
 				return new Response('Endpoint not handled!', { status: 500 });
+			}
 		}
 	},
 	serverName: 'Sauron Server',

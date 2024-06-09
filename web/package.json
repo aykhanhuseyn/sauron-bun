@@ -1,18 +1,23 @@
 {
-  "name": "sauron-web",
+  "name": "web",
   "module": "index.ts",
-  "devDependencies": {
-    "@biomejs/biome": "^1.7.3",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@types/bun": "latest",
-    "cspell": "^8.8.0",
-    "lefthook": "^1.6.10"
-  },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "build": "bun build ./index.ts --outdir ./dist --target browser --minify"
+    "build": "bun build ./index.ts --outdir ./dist --target browser --minify",
+    "lint": "biome format --write .web/**/*.{ts,js} .server/**/*.{ts,js}",
+    "check": "biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true",
+    "preinstall": "bunx only-allow bun"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.3",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@total-typescript/tsconfig": "^1.0.4",
+    "@types/bun": "^1.1.2",
+    "cspell": "^8.8.1",
+    "lefthook": "^1.6.11"
+  }
 }

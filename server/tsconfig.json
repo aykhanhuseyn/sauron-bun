@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		// Enable latest features
-		"lib": ["ESNext", "DOM"],
+		"lib": ["ESNext"],
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleDetection": "force",
@@ -26,5 +26,6 @@
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false
-	}
+	},
+	"extends": "@total-typescript/tsconfig/bundler/no-dom/app"
 }

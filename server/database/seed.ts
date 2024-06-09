@@ -1,22 +1,28 @@
-import { Application, User, LogEvent } from '../models';
-import { applications, users, event } from './data';
+import { Application, LogEvent, User } from '../models';
+import { applicationData, eventData, userData } from './data';
 
 export async function seed() {
 	try {
-		let app = await Application.findOne({ authKey: applications[0].authKey });
-		if (!app) {
-			app = (await Application.insertMany(applications))[0];
-		}
-		const user = await User.findOne({ email: users[0].email });
+		let user = await User.findOne({ email: userData.email });
 		if (!user) {
-			await User.insertMany(
-				users.map((user) => ({ ...user, applications: [app._id] })),
-			);
+			user = await User.create(userData);
 		}
-		const logEvent = LogEvent.findOne(event);
+
+		let app = await Application.findOne({ authKey: applicationData.authKey });
+		if (!app) {
+			app = await Application.create({
+				...applicationData,
+				owner: user._id,
+				users: [user._id],
+			});
+			user.applications.push(app._id);
+			user.save();
+		}
+
+		const logEvent = LogEvent.findOne({ identifier: eventData.identifier });
 		if (!logEvent) {
 			await LogEvent.create({
-				identifier: event.identifier,
+				...eventData,
 				application: app._id,
 			});
 		}

@@ -7,60 +7,42 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"a11y": {
+				"recommended": true
+			},
 			"complexity": {
 				"recommended": true,
 				"noForEach": "off",
-				"noVoid": "off",
 				"noExcessiveCognitiveComplexity": "error",
 				"useSimplifiedLogicExpression": "error"
 			},
 			"correctness": {
-				"recommended": true
+				"recommended": true,
+				"noUndeclaredVariables": "error",
+				"noUnusedImports": "error",
+				"noUnusedPrivateClassMembers": "error",
+				"noUnusedVariables": "error",
+				"useHookAtTopLevel": "error"
 			},
 			"performance": {
+				"recommended": true,
+				"noBarrelFile": "error",
+				"noReExportAll": "error"
+			},
+			"security": {
 				"recommended": true
 			},
 			"style": {
 				"recommended": true,
-				"noDefaultExport": "off",
+				"noNegationElse": "error",
 				"noShoutyConstants": "error",
 				"useBlockStatements": "error",
-				"useShorthandArrayType": "error",
-				"useShorthandAssign": "error",
-				"useSingleCaseStatement": "error",
-				"useNamingConvention": {
+				"useConsistentArrayType": {
 					"level": "error",
 					"options": {
-						"enumMemberCase": "CONSTANT_CASE",
-						"strictCase": false
+						"syntax": "shorthand"
 					}
-				}
-			},
-			"suspicious": {
-				"recommended": true,
-				"noConstEnum": "off",
-				"noEmptyInterface": "off",
-				"noFallthroughSwitchClause": "warn",
-				"noMisrefactoredShorthandAssign": "error"
-			},
-			"nursery": {
-				"noDuplicateJsonKeys": "error",
-				"noEmptyBlockStatements": "error",
-				"noEmptyTypeParameters": "error",
-				"noGlobalAssign": "error",
-				"noGlobalEval": "error",
-				"noInvalidUseBeforeDeclaration": "error",
-				"noMisleadingCharacterClass": "error",
-				"noThenProperty": "error",
-				"noUnusedImports": "error",
-				"noUnusedPrivateClassMembers": "error",
-				"noUselessLoneBlockStatements": "error",
-				"noUselessTernary": "error",
-				"useAwait": "error",
-				"useExportType": "error",
-				"useGroupedTypeImport": "error",
-				"useImportRestrictions": "error",
-				"useImportType": "error",
+				},
 				"useFilenamingConvention": {
 					"level": "error",
 					"options": {
@@ -68,12 +50,36 @@
 						"filenameCases": ["camelCase", "PascalCase", "export"]
 					}
 				},
-				"useConsistentArrayType": {
+				"useForOf": "error",
+				"useNamingConvention": {
 					"level": "error",
 					"options": {
-						"syntax": "shorthand"
+						"enumMemberCase": "CONSTANT_CASE",
+						"strictCase": false
 					}
-				}
+				},
+				"useShorthandArrayType": "error",
+				"useShorthandAssign": "error",
+				"useSingleCaseStatement": "error"
+			},
+			"suspicious": {
+				"recommended": true,
+				"noConsoleLog": "warn",
+				"noConstEnum": "off",
+				"noSkippedTests": "error",
+				"noEmptyInterface": "off",
+				"noFallthroughSwitchClause": "warn",
+				"useAwait": "error"
+			},
+			"nursery": {
+				"recommended": true,
+				"noConsole": "warn",
+				"noConstantMathMinMaxClamp": "error",
+				"noDuplicateElseIf": "error",
+				"noUndeclaredDependencies": "error",
+				"noUselessUndefinedInitialization": "error",
+				"noDuplicateJsonKeys": "error",
+				"useExplicitLengthCheck": "error"
 			}
 		}
 	},
@@ -83,10 +89,7 @@
 			"**/.vscode/**",
 			"**/dist/**",
 			"**/vite-env.d.ts",
-			"**/SMSPortalAPI.ts",
-			"**/routeTree.gen.ts",
 			"**/commitlint.config.js",
-			"./src/models/theme-light.ts",
 			"**/package.json"
 		],
 		"include": ["**/*.ts"]
@@ -98,8 +101,6 @@
 			"**/.vscode/**",
 			"**/dist/**",
 			"**/vite-env.d.ts",
-			"**/SMSPortalAPI.ts",
-			"**/routeTree.gen.ts",
 			"**/commitlint.config.js",
 			"**/package.json"
 		],

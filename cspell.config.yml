@@ -6,5 +6,10 @@ dictionaries:
  - sauronDictionary
 ignorePaths:
  - 'cspell.config.yml'
- - 'node_modules'
  - 'cSpell.txt'
+ - 'node_modules'
+ - 'package.json'
+ - 'commitlint.config.js'
+ - 'lefthook.yml'
+ - 'biome.json'
+ - 'bun.lockb'

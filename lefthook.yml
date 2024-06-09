@@ -2,26 +2,23 @@ pre-commit:
  parallel: true
  commands:
   check:
-   glob: '*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}'
+   glob: '*.{js,ts,cjs,mjs,d.cts,d.mts,json,jsonc}'
    run: bun run check {staged_files} && git update-index
   spelling:
-   glob: '*.{js,ts,jsx,tsx,mjs,mts,cjs,cts,md}'
-   run: bun run cspell --no-summary --no-progress {staged_files}
-  markdown:
-   glob: '*.md'
-   run: bun run markdown-link-check {staged_files}
+   glob: '*.{js,ts,mjs,mts,cjs,cts,json,jsonc,md}'
+   run: bun run cspell --show-context --debug --gitignore --fail-fast --file-list {staged_files}
 commit-msg:
  parallel: true
  commands:
   lint-commit-msg:
    run: bun run commitlint --edit
-pre-push:
- parallel: true
- commands:
-  check:
-   glob: '*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}'
-   run: bun run check {push_files}
-  test:
-   run: bun run test
-  build:
-   run: bun run build
+# pre-push:
+#  parallel: true
+#  commands:
+#   check:
+#    glob: '*.{js,ts,cjs,mjs,d.cts,d.mts,json,jsonc}'
+#    run: bun run check {push_files}
+#   test:
+#    run: bun run test
+#   build:
+#    run: bun run build

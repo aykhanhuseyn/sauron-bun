@@ -1,2 +1,11 @@
+Avant
+biri
+Candara
 cyrb
+Hono
+Lucida
+Lucidatypewriter
+Palatino
 sauron
+Tahoma
+Verdana

@@ -19,15 +19,18 @@
 	"window.autoDetectColorScheme": false,
 	"files.exclude": {
 		"**/.vscode/": false,
-		"tsconfig.json": true,
-		"bun.lockb": true,
-		".bunfig.toml": true,
-		"node_modules": true,
-		"src/vite-env.d.ts": true,
-		"biome.json": true,
-		"lefthook.yml": true,
-		"commitlint.config.js": true,
-		"cspell.config.yml": true,
-		"cSpell.txt": true
+		"**/tsconfig.json": true,
+		"**/bun.lockb": true,
+		// ".bunfig.toml": true,
+		"node_modules": false,
+		// "biome.json": true,
+		// "lefthook.yml": true,
+		// "commitlint.config.js": true,
+		// "cspell.config.yml": true,
+		// "cSpell.txt": true,
+		"server/server.crt": true,
+		"server/server.csr": true,
+		"server/server.key": true,
+		"server/rand.txt": true
 	}
 }

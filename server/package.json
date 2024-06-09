@@ -1,26 +1,39 @@
 {
-  "name": "sauron-server",
+  "name": "server",
   "module": "index.ts",
   "type": "module",
   "scripts": {
     "start": "bun index.ts",
     "dev": "bun --watch index.ts",
-    "build": "bun build ./index.ts --outdir ./dist --target bun --minify"
+    "preinstall": "bunx only-allow bun",
+    "build": "bun build ./index.ts --outdir ./dist --target bun --minify",
+    "lint": "biome format --write .web/**/*.{ts,js} .server/**/*.{ts,js}",
+    "check": "biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true",
+    "postinstall": "lefthook install"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.7.3",
+    "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "@types/bun": "latest",
+    "@total-typescript/tsconfig": "^1.0.4",
+    "@types/bun": "^1.1.2",
     "@types/useragent": "^2.3.4",
-    "cspell": "^8.8.0",
-    "lefthook": "^1.6.10"
+    "cspell": "^8.8.1",
+    "lefthook": "^1.6.11"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "mongoose": "^8.3.3",
+    "@hono/zod-validator": "^0.2.1",
+    "hono": "^4.3.8",
+    "mongoose": "^8.3.5",
     "useragent": "^2.3.0",
     "yup": "^1.4.0"
-  }
+  },
+  "trustedDependencies": [
+    "@biomejs/biome",
+    "lefthook",
+    "cspell"
+  ]
 }
